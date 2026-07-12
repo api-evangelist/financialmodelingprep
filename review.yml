@@ -1,0 +1,87 @@
+aid: financialmodelingprep
+name: Financial Modeling Prep
+review:
+  question: Does Financial Modeling Prep expose a documented public WebSocket API?
+  answer: true
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Financial Modeling Prep publishes genuine WebSocket (wss://) endpoints for
+    real-time market data. An AsyncAPI 2.6 document was authored at
+    asyncapi/financialmodelingprep-asyncapi.yml modeling the login / subscribe /
+    unsubscribe client control events and the server-pushed trade (T), quote (Q),
+    and trade-break (B) messages across the stocks, crypto, and forex hosts.
+findings:
+  summary: |
+    Financial Modeling Prep (FMP) exposes both a large REST API and a real-time
+    WebSocket API. The REST surface is served from the stable base
+    https://financialmodelingprep.com/stable (with a legacy https://financialmodelingprep.com/api/v3
+    base still in use), authenticated with an API key passed as the `apikey`
+    query parameter, returning JSON or CSV across 100+ endpoints for financial
+    statements, quotes, historical prices, SEC filings, analyst estimates,
+    fundamentals, and economic data. Separately, FMP documents WebSocket
+    endpoints (wss://) that stream real-time quotes and trades. Clients connect,
+    send a `login` event carrying their API key, then send `subscribe` events
+    naming tickers, and receive top-of-book quote (Q), last-trade (T), and
+    trade-break (B) messages. This is a genuine bidirectional WebSocket
+    transport, so the review answer is true and an AsyncAPI document was created.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://financialmodelingprep.com/stable
+      documented: true
+      note: Stable REST base. Legacy base https://financialmodelingprep.com/api/v3 also documented. API key via ?apikey= query parameter.
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://websockets.financialmodelingprep.com
+      documented: true
+      note: Real-time stock stream. Crypto (wss://crypto.financialmodelingprep.com) and forex (wss://forex.financialmodelingprep.com) have their own hosts. login -> subscribe flow, JSON messages.
+  endpointsConfirmedRest:
+    - GET https://financialmodelingprep.com/stable/income-statement?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/balance-sheet-statement?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/cash-flow-statement?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/quote?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/historical-price-eod/full?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/sec-filings-search/symbol?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/sec-filings-search/cik?cik=0000320193
+    - GET https://financialmodelingprep.com/stable/financials-latest
+    - GET https://financialmodelingprep.com/stable/profile?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/key-metrics?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/ratios?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/analyst-estimates?symbol=AAPL&period=annual
+    - GET https://financialmodelingprep.com/stable/financial-estimates?symbol=AAPL
+    - GET https://financialmodelingprep.com/stable/economic-indicators?name=GDP
+    - GET https://financialmodelingprep.com/stable/treasury-rates
+    - GET https://financialmodelingprep.com/stable/economic-calendar
+  endpointsConfirmedWebSocket:
+    - wss://websockets.financialmodelingprep.com
+    - wss://crypto.financialmodelingprep.com
+    - wss://forex.financialmodelingprep.com
+sources:
+  - url: https://site.financialmodelingprep.com/developer/docs/stable
+    type: Documentation
+    note: Stable REST docs; 100+ endpoints, apikey query auth, JSON/CSV, free tier 250 requests/day.
+  - url: https://site.financialmodelingprep.com/datasets/websocket
+    type: Documentation
+    note: WebSocket dataset page; real-time streaming for stocks, crypto, and forex over wss.
+  - url: https://site.financialmodelingprep.com/developer/docs/websocket-api
+    type: APIReference
+    note: Company WebSocket API reference; login event with apiKey then subscribe with ticker list; T/Q/B message types.
+  - url: https://site.financialmodelingprep.com/developer/docs/stable/financials-latest
+    type: APIReference
+    note: Latest SEC filings endpoint.
+  - url: https://site.financialmodelingprep.com/developer/docs/stable/search-by-cik
+    type: APIReference
+    note: SEC filings search by CIK.
+  - url: https://site.financialmodelingprep.com/developer/docs/pricing
+    type: Documentation
+    note: Pricing tiers; free 250 requests/day, paid tiers add real-time and higher rate limits.
+actions:
+  asyncapiPath: asyncapi/financialmodelingprep-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    FMP documents a real WebSocket transport, so an AsyncAPI 2.6 document was
+    created modeling the login/subscribe control events and the streamed
+    trade/quote/trade-break messages, and a dedicated Real-Time WebSocket API
+    entry (with AsyncAPI property) was added to apis.yml alongside the REST APIs.

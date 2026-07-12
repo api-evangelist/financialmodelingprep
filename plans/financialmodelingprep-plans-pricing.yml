@@ -1,0 +1,190 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Financial Modeling Prep
+providerId: financialmodelingprep
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Financial Data
+- Market Data
+- Fundamentals
+- SEC Filings
+- Plans
+description: >-
+  Financial Modeling Prep offers a free tier plus paid subscription tiers that
+  scale primarily on request rate (requests per minute), trailing 30-day
+  bandwidth allowance, data recency (delayed vs real-time), historical depth,
+  geographic coverage, and access to premium datasets (transcripts, holdings,
+  13F, 1-minute intraday, bulk downloads). The free tier allows up to 250
+  requests per day against end-of-day / sandbox data. Paid tiers - commonly
+  named Starter, Premium, and Ultimate - add real-time U.S. coverage, then
+  deeper history and additional markets, then full global coverage and bulk
+  delivery. Enterprise / Build arrangements exist for higher volumes.
+notes: >-
+  Rate-limit and bandwidth figures below are grounded in FMP's published plan
+  documentation. Exact monthly / annual prices shift over time and are NOT
+  reconciled here - the numeric prices shown are approximate and MUST be
+  verified on the current FMP pricing page before use. Annual billing carries a
+  discount (up to roughly a third off) versus monthly.
+sources:
+- https://site.financialmodelingprep.com/developer/docs/pricing
+- https://site.financialmodelingprep.com/pricing-plans
+- https://site.financialmodelingprep.com/faqs
+plans:
+- id: fmp-basic-free
+  name: Basic (Free)
+  type: free
+  description: >-
+    Free tier for evaluation and light use. Up to 250 requests per day against
+    end-of-day / sandbox data, with a 500 MB trailing 30-day bandwidth
+    allowance. Most endpoints are reachable but real-time and premium datasets
+    are restricted.
+  entries:
+  - label: Daily Requests
+    name: free_daily_requests
+    type: usage
+    metric: requests
+    limit: 250
+    timeFrame: day
+    geo: global
+    unit: 1
+    price: free
+    userMultiplied: false
+  - label: Bandwidth (trailing 30 days)
+    name: free_bandwidth
+    type: usage
+    metric: bytes
+    limit: 524288000
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: free
+    userMultiplied: false
+  elements:
+  - name: End-of-Day Data
+  - name: Financial Statements
+  - name: SEC Filings
+- id: fmp-starter
+  name: Starter
+  type: paid
+  description: >-
+    Entry paid tier adding real-time U.S. market coverage. Approximately 300
+    requests per minute and a 20 GB trailing 30-day bandwidth allowance.
+  entries:
+  - label: Requests Per Minute
+    name: starter_rpm
+    type: usage
+    metric: requests
+    limit: 300
+    timeFrame: minute
+    geo: global
+    unit: 1
+    price: approx per month - verify on pricing page
+    userMultiplied: false
+  - label: Bandwidth (trailing 30 days)
+    name: starter_bandwidth
+    type: usage
+    metric: bytes
+    limit: 21474836480
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Real-Time US Data
+  - name: WebSocket Streaming
+  - name: Financial Statements
+- id: fmp-premium
+  name: Premium
+  type: paid
+  description: >-
+    Adds deeper historical coverage and additional markets (UK and Canada).
+    Approximately 750 requests per minute and a 50 GB trailing 30-day bandwidth
+    allowance.
+  entries:
+  - label: Requests Per Minute
+    name: premium_rpm
+    type: usage
+    metric: requests
+    limit: 750
+    timeFrame: minute
+    geo: global
+    unit: 1
+    price: approx per month - verify on pricing page
+    userMultiplied: false
+  - label: Bandwidth (trailing 30 days)
+    name: premium_bandwidth
+    type: usage
+    metric: bytes
+    limit: 53687091200
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Deeper History
+  - name: UK and Canada Coverage
+  - name: WebSocket Streaming
+- id: fmp-ultimate
+  name: Ultimate
+  type: paid
+  description: >-
+    Top self-serve tier with full global coverage plus premium datasets -
+    earnings transcripts, institutional holdings, 13F filings, 1-minute
+    intraday, and bulk delivery. Approximately 3000 requests per minute and a
+    150 GB trailing 30-day bandwidth allowance.
+  entries:
+  - label: Requests Per Minute
+    name: ultimate_rpm
+    type: usage
+    metric: requests
+    limit: 3000
+    timeFrame: minute
+    geo: global
+    unit: 1
+    price: approx per month - verify on pricing page
+    userMultiplied: false
+  - label: Bandwidth (trailing 30 days)
+    name: ultimate_bandwidth
+    type: usage
+    metric: bytes
+    limit: 161061273600
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Global Coverage
+  - name: Transcripts and 13F and Holdings
+  - name: 1-Minute Intraday
+  - name: Bulk Download
+- id: fmp-enterprise
+  name: Enterprise / Build
+  type: enterprise
+  description: >-
+    Custom arrangements for high-volume, commercial redistribution, or
+    dedicated-support needs. Negotiated rate limits, bandwidth, licensing, and
+    SLAs. Contact FMP.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Rate Limits
+  - name: Redistribution Licensing
+  - name: Dedicated Support and SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

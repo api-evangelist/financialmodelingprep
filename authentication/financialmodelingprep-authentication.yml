@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/financialmodelingprep-openapi.yml
+summary:
+  types:
+  - apiKey
+schemes:
+- name: apiKeyQuery
+  type: apiKey
+  in: query
+  keyName: apikey
+  description: >-
+    Every REST request is authenticated with an FMP API key passed as the
+    `apikey` query parameter, e.g. ?apikey=YOUR_API_KEY. The same key
+    authenticates the WebSocket streams via a login event carrying apiKey.
+  sources:
+  - openapi/financialmodelingprep-openapi.yml
+  - https://site.financialmodelingprep.com/developer/docs/stable

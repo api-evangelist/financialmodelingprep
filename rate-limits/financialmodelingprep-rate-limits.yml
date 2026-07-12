@@ -1,0 +1,69 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Financial Modeling Prep
+providerId: financialmodelingprep
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Financial Data
+- Market Data
+- Rate Limiting
+- Quotas
+- Bandwidth
+description: >-
+  Financial Modeling Prep enforces two overlapping limits on the REST API: a
+  request-rate cap and a trailing 30-day bandwidth allowance, both scaling with
+  plan tier. The free Basic tier is capped at 250 requests per day. Paid tiers
+  are governed by a per-minute request rate - approximately 300 requests/minute
+  on Starter, 750 on Premium, and 3000 on Ultimate - and a rolling 30-day
+  bandwidth budget of roughly 500 MB (free), 20 GB (Starter), 50 GB (Premium),
+  and 150 GB (Ultimate). Exceeding a limit returns an HTTP 429 response.
+notes: >-
+  Numeric values below reflect FMP's published plan documentation and should be
+  re-verified on the pricing page, as tiers and thresholds change over time. The
+  WebSocket streams are subject to plan eligibility (real-time access) rather
+  than the per-day request cap.
+sources:
+- https://site.financialmodelingprep.com/developer/docs/pricing
+- https://site.financialmodelingprep.com/faqs
+- https://site.financialmodelingprep.com/developer/docs/stable
+responseCodes:
+  throttled: 429
+limits:
+- name: Free Daily Requests
+  scope: account
+  metric: requests
+  limit: 250 per day
+  notes: Basic (free) tier cap on total requests per calendar day.
+- name: Starter Request Rate
+  scope: account
+  metric: requests
+  limit: ~300 per minute
+  notes: Per-minute request cap on the Starter tier.
+- name: Premium Request Rate
+  scope: account
+  metric: requests
+  limit: ~750 per minute
+  notes: Per-minute request cap on the Premium tier.
+- name: Ultimate Request Rate
+  scope: account
+  metric: requests
+  limit: ~3000 per minute
+  notes: Per-minute request cap on the Ultimate tier.
+- name: Bandwidth Allowance
+  scope: account
+  metric: bytes
+  limit: 500MB / 20GB / 50GB / 150GB (Free / Starter / Premium / Ultimate)
+  notes: Trailing 30-day bandwidth budget per plan tier.
+policies:
+- name: Throttling
+  description: Requests beyond the plan's rate or bandwidth allowance receive an HTTP 429 response.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on 429 responses and spread bulk pulls across time to stay within the 30-day bandwidth budget.
+- name: Bulk And Caching
+  description: Use bulk endpoints and client-side caching of slowly-changing fundamentals to reduce request volume and bandwidth consumption.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
