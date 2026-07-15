@@ -203,6 +203,8 @@ apis:
     subscribe to tickers to receive top-of-book quote and last-trade messages as
     they occur.
 common:
+- type: AgenticAccess
+  url: agentic-access/financialmodelingprep-agentic-access.yml
 - type: Authentication
   url: authentication/financialmodelingprep-authentication.yml
 - type: GitHubOrganization
