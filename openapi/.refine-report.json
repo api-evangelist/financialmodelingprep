@@ -1,0 +1,24 @@
+{
+  "provider": "financialmodelingprep",
+  "sources": [
+    "financialmodelingprep-analyst-estimates-api-openapi.yml",
+    "financialmodelingprep-economic-data-api-openapi.yml",
+    "financialmodelingprep-financial-statements-api-openapi.yml",
+    "financialmodelingprep-fundamentals-api-openapi.yml",
+    "financialmodelingprep-quotes-and-prices-api-openapi.yml",
+    "financialmodelingprep-sec-filings-api-openapi.yml"
+  ],
+  "outputs": [
+    "financialmodelingprep-analyst-estimates-api-openapi.yml",
+    "financialmodelingprep-economic-data-api-openapi.yml",
+    "financialmodelingprep-financial-statements-api-openapi.yml",
+    "financialmodelingprep-fundamentals-api-openapi.yml",
+    "financialmodelingprep-quotes-and-prices-api-openapi.yml",
+    "financialmodelingprep-sec-filings-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
